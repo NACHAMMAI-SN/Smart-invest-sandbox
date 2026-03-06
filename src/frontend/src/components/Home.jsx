@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
+<<<<<<< HEAD
 import { portfolioAPI } from '../services/api';
 
 const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
@@ -11,6 +12,11 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
         holdings: 0,
         topStock: ''
     });
+=======
+
+const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
+    const [marketStatus, setMarketStatus] = useState('');
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 
     // Calculate real-time market status
     useEffect(() => {
@@ -47,6 +53,7 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
         return () => clearInterval(interval);
     }, []);
 
+<<<<<<< HEAD
     // Load portfolio analytics for dashboard card
     useEffect(() => {
         const loadAnalytics = async () => {
@@ -61,6 +68,8 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
         loadAnalytics();
     }, [user]);
 
+=======
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     return (
         <div className="dashboard-container">
             {/* Sidebar */}
@@ -117,6 +126,7 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
 
                     <div className="sidebar-action-buttons">
                         <button onClick={() => onNavigate('dashboard')} className="sidebar-action-button primary">
+<<<<<<< HEAD
                              HOME
                         </button>
                         <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button">
@@ -137,12 +147,38 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                         {/* NEW: Tutorials Navigation */}
                         <button onClick={onNavigateToTutorials} className="sidebar-action-button tutorial-btn">
                              TUTORIALS
+=======
+                            📊 HOME
+                        </button>
+                        <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button">
+                            💼 PORTFOLIO
+                        </button>
+                        <button onClick={() => onNavigate('trade')} className="sidebar-action-button">
+                            💹 TRADE
+                        </button>
+                        <button onClick={() => onNavigate('forecast')} className="sidebar-action-button">
+                            🔮 FORECAST
+                        </button>
+                        <button onClick={() => onNavigate('news')} className="sidebar-action-button">
+                            📰 NEWS
+                        </button>
+                        <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
+                            📋 TRANSACTIONS
+                        </button>
+                        {/* NEW: Tutorials Navigation */}
+                        <button onClick={onNavigateToTutorials} className="sidebar-action-button tutorial-btn">
+                            📚 TUTORIALS
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
 
                     <div className="sign-out-section">
                         <button onClick={onLogout} className="sign-out-button">
+<<<<<<< HEAD
                              Sign Out
+=======
+                            🚪 Sign Out
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
                 </div>
@@ -153,7 +189,11 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                 <div className="home-container">
                     <div className="home-card">
                         <div className="welcome-section">
+<<<<<<< HEAD
                             <div className="success-icon"></div>
+=======
+                            <div className="success-icon">🎉</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                             <h1>Welcome to Smart Invest</h1>
                             <h2>Hello, {user?.username}!</h2>
 
@@ -178,6 +218,7 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
 
                             <div className="navigation-buttons">
                                 <button onClick={() => onNavigate('portfolio')} className="btn-primary">
+<<<<<<< HEAD
                                      View Portfolio
                                 </button>
                                 <button onClick={() => onNavigate('trade')} className="btn-primary">
@@ -195,6 +236,25 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                                 {/* NEW: Tutorials Button */}
                                 <button onClick={onNavigateToTutorials} className="btn-primary tutorial-highlight">
                                      Learn & Practice
+=======
+                                    📊 View Portfolio
+                                </button>
+                                <button onClick={() => onNavigate('trade')} className="btn-primary">
+                                    💹 Start Trading
+                                </button>
+                                <button onClick={() => onNavigate('forecast')} className="btn-primary">
+                                    🔮 Market Forecast
+                                </button>
+                                <button onClick={() => onNavigate('news')} className="btn-secondary">
+                                    📰 Market News
+                                </button>
+                                <button onClick={() => onNavigate('transactions')} className="btn-secondary">
+                                    📋 Transaction History
+                                </button>
+                                {/* NEW: Tutorials Button */}
+                                <button onClick={onNavigateToTutorials} className="btn-primary tutorial-highlight">
+                                    📚 Learn & Practice
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 </button>
                             </div>
 
@@ -205,6 +265,7 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                                 </div>
                                 <div className="stat-badge">
                                     <span className="stat-label">Platform</span>
+<<<<<<< HEAD
                                     <span className="stat-value beginner">Simulation</span>
                                 </div>
                                 <div className="stat-badge">
@@ -251,13 +312,28 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                                             {analytics.topStock || 'N/A'}
                                         </span>
                                     </div>
+=======
+                                    <span className="stat-value">Simulation</span>
+                                </div>
+                                <div className="stat-badge">
+                                    <span className="stat-label">Experience</span>
+                                    <span className="stat-value">Risk-Free</span>
+                                </div>
+                                <div className="stat-badge">
+                                    <span className="stat-label">AI Features</span>
+                                    <span className="stat-value">Enabled</span>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 </div>
                             </div>
 
                             {/* Features Grid */}
                             <div className="features-grid">
                                 <div className="feature-card">
+<<<<<<< HEAD
                                     <div className="feature-icon"></div>
+=======
+                                    <div className="feature-icon">💹</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     <h3>Live Trading</h3>
                                     <p>Execute real-time trades with virtual money in a simulated market environment</p>
                                     <button onClick={() => onNavigate('trade')} className="btn-feature">
@@ -265,7 +341,11 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                                     </button>
                                 </div>
                                 <div className="feature-card">
+<<<<<<< HEAD
                                     <div className="feature-icon"></div>
+=======
+                                    <div className="feature-icon">🔮</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     <h3>AI Forecasting</h3>
                                     <p>Advanced machine learning predictions powered by LSTM neural networks</p>
                                     <button onClick={() => onNavigate('forecast')} className="btn-feature">
@@ -273,7 +353,11 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                                     </button>
                                 </div>
                                 <div className="feature-card">
+<<<<<<< HEAD
                                     <div className="feature-icon"></div>
+=======
+                                    <div className="feature-icon">📊</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     <h3>Portfolio Tracking</h3>
                                     <p>Monitor your investments with detailed analytics and performance metrics</p>
                                     <button onClick={() => onNavigate('portfolio')} className="btn-feature">
@@ -281,7 +365,11 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                                     </button>
                                 </div>
                                 <div className="feature-card">
+<<<<<<< HEAD
                                     <div className="feature-icon"></div>
+=======
+                                    <div className="feature-icon">📚</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     <h3>Interactive Tutorials</h3>
                                     <p>Learn stock market fundamentals with guided lessons, quizzes, and exercises</p>
                                     <button onClick={onNavigateToTutorials} className="btn-feature tutorial-feature">
@@ -293,11 +381,16 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                             {/* Learning Section */}
                             <div className="learning-section">
                                 <div className="learning-header">
+<<<<<<< HEAD
                                     <h2> Master Stock Market Investing</h2>
+=======
+                                    <h3>🎓 Master Stock Market Investing</h3>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     <p>Build your knowledge with our comprehensive tutorial system</p>
                                 </div>
                                 <div className="learning-features">
                                     <div className="learning-feature">
+<<<<<<< HEAD
                                         <span className="learning-icon"></span>
                                         <span>Step-by-step lessons</span>
                                     </div>
@@ -311,17 +404,40 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                                     </div>
                                     <div className="learning-feature">
                                         <span className="learning-icon"></span>
+=======
+                                        <span className="learning-icon">📖</span>
+                                        <span>Step-by-step lessons</span>
+                                    </div>
+                                    <div className="learning-feature">
+                                        <span className="learning-icon">🧩</span>
+                                        <span>Interactive exercises</span>
+                                    </div>
+                                    <div className="learning-feature">
+                                        <span className="learning-icon">📝</span>
+                                        <span>Knowledge quizzes</span>
+                                    </div>
+                                    <div className="learning-feature">
+                                        <span className="learning-icon">📊</span>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         <span>Real case studies</span>
                                     </div>
                                 </div>
                                 <button onClick={onNavigateToTutorials} className="btn-learning">
+<<<<<<< HEAD
                                      Explore Tutorials
+=======
+                                    🚀 Explore Tutorials
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 </button>
                             </div>
 
                             <div className="action-buttons">
                                 <button onClick={onLogout} className="btn-logout">
+<<<<<<< HEAD
                                      Sign Out
+=======
+                                    🚪 Sign Out
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 </button>
                             </div>
                         </div>

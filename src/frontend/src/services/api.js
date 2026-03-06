@@ -72,6 +72,7 @@ export const authAPI = {
         }
     }
 };
+<<<<<<< HEAD
 export const getForecast = async (symbol, days = 7) => {
     try {
         const response = await fetch(
@@ -83,6 +84,9 @@ export const getForecast = async (symbol, days = 7) => {
         throw error;
     }
 };
+=======
+
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 export const stockAPI = {
     // Fetch stock data by symbol
     getStock: async (symbol) => {
@@ -143,7 +147,11 @@ export const portfolioAPI = {
         }
     },
 
+<<<<<<< HEAD
     // Buy stock (full trade payload)
+=======
+    // Buy stock
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     buyStock: async (tradeData) => {
         try {
             const response = await axios.post(`${PORTFOLIO_BASE}/trade/buy`, tradeData);
@@ -157,7 +165,11 @@ export const portfolioAPI = {
         }
     },
 
+<<<<<<< HEAD
     // Sell stock (full trade payload)
+=======
+    // Sell stock
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     sellStock: async (tradeData) => {
         try {
             const response = await axios.post(`${PORTFOLIO_BASE}/trade/sell`, tradeData);
@@ -171,7 +183,11 @@ export const portfolioAPI = {
         }
     },
 
+<<<<<<< HEAD
     // Get portfolio statistics (derived on frontend from portfolio + transactions)
+=======
+    // Get portfolio statistics
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     getPortfolioStats: async (username) => {
         try {
             const portfolioResponse = await portfolioAPI.getPortfolio(username);
@@ -209,6 +225,7 @@ export const portfolioAPI = {
                 message: 'Failed to calculate portfolio statistics'
             };
         }
+<<<<<<< HEAD
     },
 
     // Get aggregated portfolio analytics from backend
@@ -245,6 +262,8 @@ export const portfolioAPI = {
 
     fetchPortfolioAnalytics: async (username) => {
         return portfolioAPI.getPortfolioAnalytics(username);
+=======
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     }
 };
 
@@ -308,7 +327,11 @@ export const tutorialAPI = {
     // Submit quiz
     submitQuiz: async (tutorialId, answers, username) => {
         try {
+<<<<<<< HEAD
             console.log(' Submitting quiz...');
+=======
+            console.log('🔄 Submitting quiz...');
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             console.log('Tutorial ID:', tutorialId);
             console.log('Username:', username);
             console.log('Answers:', answers);
@@ -350,7 +373,11 @@ export const tutorialAPI = {
     // Get tutorial quiz
     getQuiz: async (tutorialId) => {
         try {
+<<<<<<< HEAD
             console.log(` Fetching quiz for tutorial: ${tutorialId}`);
+=======
+            console.log(`🔄 Fetching quiz for tutorial: ${tutorialId}`);
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             const response = await axios.get(`${TUTORIAL_BASE}/tutorial/quiz`, {
                 params: { tutorialId }
             });
@@ -657,6 +684,7 @@ const getFallbackQuiz = (tutorialId) => {
     };
     return quizzes[tutorialId] || quizzes['stock-fundamentals'];
 };
+<<<<<<< HEAD
 //Extra
 const API_BASE = 'http://localhost:8080/api';
 
@@ -703,6 +731,9 @@ export const apiService = {
         return await response.json();
     }
 };
+=======
+
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 // Default export with all APIs
 export default {
     auth: authAPI,

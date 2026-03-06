@@ -9,7 +9,11 @@ import News from './components/News';
 import Transactions from './components/Transactions';
 import TutorialPage from './components/TutorialPage'; // NEW: Tutorial system
 import Chatbot from './components/Chatbot';
+<<<<<<< HEAD
 import './App.css';
+=======
+import './styles/App.css';
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 
 function App() {
     const [currentView, setCurrentView] = useState('login');

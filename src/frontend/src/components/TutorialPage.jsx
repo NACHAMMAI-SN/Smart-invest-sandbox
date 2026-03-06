@@ -69,6 +69,7 @@ const TutorialPage = ({ onBackToHome, user }) => {
         }
     };
 
+<<<<<<< HEAD
 
     const loadUserProgress = async () => {
       try {
@@ -108,6 +109,39 @@ const TutorialPage = ({ onBackToHome, user }) => {
     };
 
 
+=======
+    const loadUserProgress = async () => {
+        try {
+            const progress = await tutorialAPI.getUserProgress(user.username);
+            const safeProgress = {
+                data: progress.data || {},
+                statistics: {
+                    completedTutorials: progress.statistics?.completedTutorials || 0,
+                    currentLevel: progress.statistics?.currentLevel || 'Beginner',
+                    badges: progress.statistics?.badges || [],
+                    certifications: progress.statistics?.certifications || [],
+                    totalTimeSpent: progress.statistics?.totalTimeSpent || 0,
+                    averageScore: progress.statistics?.averageScore || 0
+                }
+            };
+            setUserProgress(safeProgress);
+        } catch (error) {
+            console.error('Failed to load user progress:', error);
+            setUserProgress({
+                data: {},
+                statistics: {
+                    completedTutorials: 0,
+                    currentLevel: 'Beginner',
+                    badges: [],
+                    certifications: [],
+                    totalTimeSpent: 0,
+                    averageScore: 0
+                }
+            });
+        }
+    };
+
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     const loadTutorialProgress = async () => {
         try {
             const progress = await tutorialAPI.getTutorialProgress(user.username, activeSection);
@@ -167,9 +201,15 @@ const TutorialPage = ({ onBackToHome, user }) => {
 
                 // Show completion message for high scores
                 if (results.score >= 90) {
+<<<<<<< HEAD
                     alert(` Excellent! You scored ${results.score}% and completed the tutorial!`);
                 } else if (results.passed) {
                     alert(` Great job! You passed with ${results.score}% and completed the tutorial!`);
+=======
+                    alert(`🎉 Excellent! You scored ${results.score}% and completed the tutorial!`);
+                } else if (results.passed) {
+                    alert(`✅ Great job! You passed with ${results.score}% and completed the tutorial!`);
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                 }
             }
         } catch (error) {
@@ -213,7 +253,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
 
     const markAsComplete = async () => {
         try {
+<<<<<<< HEAD
             console.log(' markAsComplete called:');
+=======
+            console.log('🔍 markAsComplete called:');
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             console.log('User:', user);
             console.log('Username:', user?.username);
             console.log('Active Section:', activeSection);
@@ -279,7 +323,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
         // Use whichever is available
         const completed = completedFromStatistics > 0 ? completedFromStatistics : completedFromData;
 
+<<<<<<< HEAD
         console.log(' Progress Calculation:', {
+=======
+        console.log('📊 Progress Calculation:', {
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             totalTutorials: total,
             completedFromStatistics: completedFromStatistics,
             completedFromData: completedFromData,
@@ -320,7 +368,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
             {showCompletion && (
                 <div className="completion-celebration">
                     <div className="celebration-content">
+<<<<<<< HEAD
                         <h3> Tutorial Completed! 🎉</h3>
+=======
+                        <h3>🎉 Tutorial Completed! 🎉</h3>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         <p>Great job completing "{currentTutorial.title}"!</p>
                         {tutorialProgress.quizScore > 0 && (
                             <p>Quiz Score: <strong>{tutorialProgress.quizScore}%</strong></p>
@@ -469,11 +521,19 @@ const TutorialPage = ({ onBackToHome, user }) => {
                                     <div className="current-progress">
                                         <span style={{color: "#666666"}}>Your Progress: </span>
                                         {tutorialProgress.completed || tutorialProgress.quizPassed ? (
+<<<<<<< HEAD
                                             <span style={{color: '#28a745', fontWeight: 'bold'}}> Completed</span>
                                         ) : tutorialProgress.timeSpent > 0 ? (
                                             <span style={{color: '#ffc107', fontWeight: 'bold'}}> In Progress</span>
                                         ) : (
                                             <span style={{color: '#6c757d', fontWeight: 'bold'}}> Not Started</span>
+=======
+                                            <span style={{color: '#28a745', fontWeight: 'bold'}}>✅ Completed</span>
+                                        ) : tutorialProgress.timeSpent > 0 ? (
+                                            <span style={{color: '#ffc107', fontWeight: 'bold'}}>🔄 In Progress</span>
+                                        ) : (
+                                            <span style={{color: '#6c757d', fontWeight: 'bold'}}>⏳ Not Started</span>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         )}
                                         {tutorialProgress.quizScore > 0 && (
                                             <span style={{marginLeft: '15px'}}>
@@ -487,31 +547,55 @@ const TutorialPage = ({ onBackToHome, user }) => {
 
                             <div className="content-tabs">
                                 <button className={`tab ${activeTab === 'content' ? 'active' : ''}`} onClick={() => setActiveTab('content')}>
+<<<<<<< HEAD
                                      Learning Content
                                 </button>
                                 {currentTutorial.hasVideo && (
                                     <button className={`tab ${activeTab === 'video' ? 'active' : ''}`} onClick={() => setActiveTab('video')}>
                                          Video Lesson
+=======
+                                    📚 Learning Content
+                                </button>
+                                {currentTutorial.hasVideo && (
+                                    <button className={`tab ${activeTab === 'video' ? 'active' : ''}`} onClick={() => setActiveTab('video')}>
+                                        🎥 Video Lesson
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     </button>
                                 )}
                                 {currentTutorial.exercise && (
                                     <button className={`tab ${activeTab === 'exercise' ? 'active' : ''}`} onClick={() => setActiveTab('exercise')}>
+<<<<<<< HEAD
                                          Practice Exercise
+=======
+                                        💡 Practice Exercise
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     </button>
                                 )}
                                 {currentTutorial.hasQuiz && (
                                     <button className={`tab ${activeTab === 'quiz' ? 'active' : ''}`} onClick={() => setActiveTab('quiz')}>
+<<<<<<< HEAD
                                          Knowledge Check
+=======
+                                        📝 Knowledge Check
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     </button>
                                 )}
                                 {currentTutorial.caseStudies && currentTutorial.caseStudies.length > 0 && (
                                     <button className={`tab ${activeTab === 'cases' ? 'active' : ''}`} onClick={() => setActiveTab('cases')}>
+<<<<<<< HEAD
                                          Case Studies
+=======
+                                        📊 Case Studies
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     </button>
                                 )}
                                 {currentTutorial.glossary && Object.keys(currentTutorial.glossary).length > 0 && (
                                     <button className={`tab ${activeTab === 'glossary' ? 'active' : ''}`} onClick={() => setActiveTab('glossary')}>
+<<<<<<< HEAD
                                          Glossary
+=======
+                                        📖 Glossary
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     </button>
                                 )}
                             </div>
@@ -617,7 +701,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
 
                                             {exerciseResult !== null && (
                                                 <div className={`exercise-result ${exerciseResult ? 'correct' : 'incorrect'}`}>
+<<<<<<< HEAD
                                                     {exerciseResult ? ' Correct! Well done!' : ' Try again!'}
+=======
+                                                    {exerciseResult ? '✅ Correct! Well done!' : '❌ Try again!'}
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                 </div>
                                             )}
                                         </div>
@@ -674,7 +762,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
                                             <div className="quiz-results">
                                                 <h3>Quiz Results</h3>
                                                 <div className={`result-card ${quizResults.passed ? 'passed' : 'failed'}`}>
+<<<<<<< HEAD
                                                     <h4>{quizResults.passed ? ' Congratulations!' : ' Keep Learning!'}</h4>
+=======
+                                                    <h4>{quizResults.passed ? '🎉 Congratulations!' : '📚 Keep Learning!'}</h4>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                     <div className="score-display">
                                                         Your Score: <span className="score">{quizResults.score}%</span>
                                                     </div>
@@ -683,7 +775,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
                                                     </p>
                                                     {quizResults.passed && (
                                                         <div className="success-badge">
+<<<<<<< HEAD
                                                              Quiz Completed Successfully!
+=======
+                                                            🏆 Quiz Completed Successfully!
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                         </div>
                                                     )}
                                                 </div>
@@ -785,7 +881,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
                                         <div className="badges-grid">
                                             {userProgress.statistics.badges.map((badge, index) => (
                                                 <span key={index} className="badge">
+<<<<<<< HEAD
                                                      {badge}
+=======
+                                                    🏅 {badge}
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                 </span>
                                             ))}
                                         </div>
@@ -798,7 +898,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
                                         <div className="certifications-grid">
                                             {userProgress.statistics.certifications.map((cert, index) => (
                                                 <span key={index} className="certification">
+<<<<<<< HEAD
                                                      {cert}
+=======
+                                                    📜 {cert}
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                 </span>
                                             ))}
                                         </div>
@@ -809,7 +913,11 @@ const TutorialPage = ({ onBackToHome, user }) => {
                             <div className="tutorial-footer">
                                 <div className="progress-actions">
                                     <button className="complete-btn" onClick={markAsComplete}>
+<<<<<<< HEAD
                                          Mark Complete
+=======
+                                        ✅ Mark Complete
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                     </button>
                                 </div>
 

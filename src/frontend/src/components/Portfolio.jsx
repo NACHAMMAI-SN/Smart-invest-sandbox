@@ -357,6 +357,7 @@ const Portfolio = ({ user, onLogout, onNavigate }) => {
 
                     <div className="sidebar-action-buttons">
                         <button onClick={() => onNavigate('dashboard')} className="sidebar-action-button">
+<<<<<<< HEAD
                              HOME
                         </button>
                         <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button primary">
@@ -373,12 +374,34 @@ const Portfolio = ({ user, onLogout, onNavigate }) => {
                         </button>
                         <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
                              TRANSACTIONS
+=======
+                            📊 HOME
+                        </button>
+                        <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button primary">
+                            💼 PORTFOLIO
+                        </button>
+                        <button onClick={() => onNavigate('trade')} className="sidebar-action-button">
+                            💹 TRADE
+                        </button>
+                        <button onClick={() => onNavigate('forecast')} className="sidebar-action-button">
+                            🔮 FORECAST
+                        </button>
+                        <button onClick={() => onNavigate('news')} className="sidebar-action-button">
+                            📰 NEWS
+                        </button>
+                        <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
+                            📋 TRANSACTIONS
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
 
                     <div className="sign-out-section">
                         <button onClick={onLogout} className="sign-out-button">
+<<<<<<< HEAD
                              Sign Out
+=======
+                            🚪 Sign Out
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
                 </div>
@@ -403,14 +426,22 @@ const Portfolio = ({ user, onLogout, onNavigate }) => {
 
                     {/* Portfolio Header */}
                     <div className="portfolio-header">
+<<<<<<< HEAD
                         <h1> Portfolio Overview</h1>
+=======
+                        <h1>📊 Portfolio Overview</h1>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         <p>Track your investments and performance with accurate calculations</p>
                         <div className="header-actions">
                             <button onClick={() => onNavigate('trade')} className="btn-primary">
                                 ➕ Trade Stocks
                             </button>
                             <button onClick={() => handleForecastNavigation()} className="btn-forecast">
+<<<<<<< HEAD
                                  Get AI Forecast
+=======
+                                🔮 Get AI Forecast
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                             </button>
                         </div>
                     </div>
@@ -524,7 +555,11 @@ const Portfolio = ({ user, onLogout, onNavigate }) => {
                     {/* Portfolio Table */}
                     <div className="portfolio-table">
                         <div className="table-header">
+<<<<<<< HEAD
                             <h3> Your Stock Holdings</h3>
+=======
+                            <h3>📋 Your Stock Holdings</h3>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                             <div className="table-header-actions">
                                 <button onClick={() => onNavigate('trade')} className="btn-primary">
                                     ➕ Trade Stocks
@@ -646,25 +681,44 @@ const Portfolio = ({ user, onLogout, onNavigate }) => {
 
                     {/* Portfolio Tips */}
                     <div className="portfolio-tips">
+<<<<<<< HEAD
                         <h2> Portfolio Management Tips</h2>
                         <div className="tips-grid">
                             <div className="tip-card">
                                 <span className="tip-icon"></span>
+=======
+                        <h3>💡 Portfolio Management Tips</h3>
+                        <div className="tips-grid">
+                            <div className="tip-card">
+                                <span className="tip-icon">📊</span>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 <h4>Track Your Performance</h4>
                                 <p>Monitor your gain/loss percentages regularly to make informed investment decisions.</p>
                             </div>
                             <div className="tip-card">
+<<<<<<< HEAD
                                 <span className="tip-icon"></span>
+=======
+                                <span className="tip-icon">🔮</span>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 <h4>Use AI Forecasting</h4>
                                 <p>Leverage AI predictions to anticipate market trends and optimize your portfolio strategy.</p>
                             </div>
                             <div className="tip-card">
+<<<<<<< HEAD
                                 <span className="tip-icon"></span>
+=======
+                                <span className="tip-icon">💰</span>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 <h4>Understand Your Costs</h4>
                                 <p>Keep track of your average cost basis to accurately calculate your returns.</p>
                             </div>
                             <div className="tip-card">
+<<<<<<< HEAD
                                 <span className="tip-icon"></span>
+=======
+                                <span className="tip-icon">🎯</span>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 <h4>Set Realistic Goals</h4>
                                 <p>Aim for consistent returns rather than chasing short-term gains.</p>
                             </div>

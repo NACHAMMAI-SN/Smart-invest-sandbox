@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Trade.css';
+<<<<<<< HEAD
 import { portfolioAPI } from '../services/api';
+=======
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 
 const Trade = ({ user, onLogout, onNavigate }) => {
     const [stockData, setStockData] = useState(null);
@@ -22,6 +25,10 @@ const Trade = ({ user, onLogout, onNavigate }) => {
     const [availableStocksData, setAvailableStocksData] = useState([]);
     const [isMarketOpen, setIsMarketOpen] = useState(false);
     const [transactions, setTransactions] = useState([]);
+<<<<<<< HEAD
+=======
+    const [portfolio, setPortfolio] = useState({});
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 
     // Indian Stocks List
     const indianStocks = [
@@ -214,8 +221,27 @@ const Trade = ({ user, onLogout, onNavigate }) => {
     useEffect(() => {
         fetchStockData('RELIANCE');
         loadAvailableStocks();
+<<<<<<< HEAD
     }, []);
 
+=======
+        loadInitialPortfolio();
+    }, []);
+
+    // Load initial portfolio from localStorage
+    const loadInitialPortfolio = () => {
+        const savedPortfolio = localStorage.getItem('userPortfolio');
+        const savedTransactions = localStorage.getItem('userTransactions');
+
+        if (savedPortfolio) {
+            setPortfolio(JSON.parse(savedPortfolio));
+        }
+        if (savedTransactions) {
+            setTransactions(JSON.parse(savedTransactions));
+        }
+    };
+
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     const fetchStockData = async (symbol = 'RELIANCE') => {
         setStockLoading(true);
         setMessage('');
@@ -227,13 +253,21 @@ const Trade = ({ user, onLogout, onNavigate }) => {
                 setStockData(data);
                 setSelectedStock(symbol);
                 setLimitPrice(data.price);
+<<<<<<< HEAD
                 setMessage(' Real-time market data loaded');
+=======
+                setMessage('✅ Real-time market data loaded');
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             } else {
                 throw new Error('No price data received');
             }
         } catch (error) {
             console.error('API error:', error);
+<<<<<<< HEAD
             setMessage(` ${error.message}`);
+=======
+            setMessage(`❌ ${error.message}`);
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
         } finally {
             setStockLoading(false);
         }
@@ -319,12 +353,20 @@ const Trade = ({ user, onLogout, onNavigate }) => {
     const executeTrade = async () => {
         // Check if Indian market is open first
         if (!isMarketOpen) {
+<<<<<<< HEAD
             setMessage(' Trading is only available when the Indian market is open (9:15 AM - 3:30 PM IST, Monday-Friday)');
+=======
+            setMessage('❌ Trading is only available when the Indian market is open (9:15 AM - 3:30 PM IST, Monday-Friday)');
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             return;
         }
 
         if (!stockData || quantity <= 0) {
+<<<<<<< HEAD
             setMessage(' Please enter a valid quantity');
+=======
+            setMessage('❌ Please enter a valid quantity');
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             return;
         }
 
@@ -332,11 +374,16 @@ const Trade = ({ user, onLogout, onNavigate }) => {
         const estimatedTotal = quantity * currentPrice;
 
         if (isNaN(estimatedTotal)) {
+<<<<<<< HEAD
             setMessage(' Invalid price data. Please try again.');
+=======
+            setMessage('❌ Invalid price data. Please try again.');
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             return;
         }
 
         if (action === 'BUY' && estimatedTotal > user.balance) {
+<<<<<<< HEAD
             setMessage(` Insufficient balance. You need ₹${estimatedTotal.toFixed(2)} but only have ₹${user.balance.toFixed(2)}`);
             return;
         }
@@ -381,6 +428,72 @@ const Trade = ({ user, onLogout, onNavigate }) => {
 
         } catch (error) {
             setMessage(' Trade execution failed. Please try again.');
+=======
+            setMessage(`❌ Insufficient balance. You need ₹${estimatedTotal.toFixed(2)} but only have ₹${user.balance.toFixed(2)}`);
+            return;
+        }
+
+        if (action === 'SELL') {
+            const currentHolding = portfolio[stockData.symbol] || 0;
+            if (quantity > currentHolding) {
+                setMessage(`❌ Insufficient shares. You only have ${currentHolding} shares of ${stockData.symbol}`);
+                return;
+            }
+        }
+
+        setLoading(true);
+        try {
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Create transaction record
+            const transaction = {
+                id: Date.now().toString(),
+                symbol: stockData.symbol,
+                name: stockData.name,
+                action: action,
+                quantity: quantity,
+                price: currentPrice,
+                total: estimatedTotal,
+                type: orderType,
+                timestamp: new Date().toISOString(),
+                status: 'COMPLETED'
+            };
+
+            // Update portfolio
+            const updatedPortfolio = { ...portfolio };
+            const currentShares = updatedPortfolio[stockData.symbol] || 0;
+
+            if (action === 'BUY') {
+                updatedPortfolio[stockData.symbol] = currentShares + quantity;
+                user.balance -= estimatedTotal;
+            } else {
+                updatedPortfolio[stockData.symbol] = currentShares - quantity;
+                user.balance += estimatedTotal;
+
+                // Remove stock from portfolio if quantity becomes zero
+                if (updatedPortfolio[stockData.symbol] <= 0) {
+                    delete updatedPortfolio[stockData.symbol];
+                }
+            }
+
+            // Update transactions
+            const updatedTransactions = [transaction, ...transactions];
+
+            // Update state
+            setPortfolio(updatedPortfolio);
+            setTransactions(updatedTransactions);
+
+            // Save to localStorage
+            localStorage.setItem('userPortfolio', JSON.stringify(updatedPortfolio));
+            localStorage.setItem('userTransactions', JSON.stringify(updatedTransactions));
+
+            setMessage(`✅ ${action} order executed successfully! ${quantity} shares of ${stockData.symbol} for ₹${estimatedTotal.toFixed(2)}`);
+            setQuantity(1);
+
+        } catch (error) {
+            setMessage('❌ Trade execution failed. Please try again.');
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             console.error('Trade error:', error);
         } finally {
             setLoading(false);
@@ -448,12 +561,17 @@ const Trade = ({ user, onLogout, onNavigate }) => {
                             ₹{user?.balance?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
                         </div>
                         <div className={`market-status-badge ${isMarketOpen ? 'open' : 'closed'}`}>
+<<<<<<< HEAD
                             {isMarketOpen ? ' Market Open' : ' Market Closed'}
+=======
+                            {isMarketOpen ? '🟢 Market Open' : '🔴 Market Closed'}
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </div>
                     </div>
 
                     <div className="sidebar-action-buttons">
                         <button onClick={() => onNavigate('dashboard')} className="sidebar-action-button">
+<<<<<<< HEAD
                              HOME
                         </button>
                         <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button">
@@ -470,12 +588,34 @@ const Trade = ({ user, onLogout, onNavigate }) => {
                         </button>
                         <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
                              TRANSACTIONS
+=======
+                            📊 HOME
+                        </button>
+                        <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button">
+                            💼 PORTFOLIO
+                        </button>
+                        <button onClick={() => onNavigate('trade')} className="sidebar-action-button primary">
+                            💹 TRADE
+                        </button>
+                        <button onClick={() => onNavigate('forecast')} className="sidebar-action-button">
+                            🔮 FORECAST
+                        </button>
+                        <button onClick={() => onNavigate('news')} className="sidebar-action-button">
+                            📰 NEWS
+                        </button>
+                        <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
+                            📋 TRANSACTIONS
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
 
                     <div className="sign-out-section">
                         <button onClick={onLogout} className="sign-out-button">
+<<<<<<< HEAD
                              Sign Out
+=======
+                            🚪 Sign Out
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
                 </div>
@@ -503,7 +643,11 @@ const Trade = ({ user, onLogout, onNavigate }) => {
 
                     {/* Search Section */}
                     <div className="search-section">
+<<<<<<< HEAD
                         <h2> Search Indian Stocks</h2>
+=======
+                        <h2>🔍 Search Indian Stocks</h2>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         <form onSubmit={handleSearch} className="search-form">
                             <div className="search-input-container">
                                 <input
@@ -671,7 +815,11 @@ const Trade = ({ user, onLogout, onNavigate }) => {
                                     {/* Trading Panel */}
                                     <div className="trading-panel">
                                         <div className="panel-header">
+<<<<<<< HEAD
                                             <h3> Trading Panel</h3>
+=======
+                                            <h3>💹 Trading Panel</h3>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                             <div className="action-buttons">
                                                 <button
                                                     className={`action-btn ${action === 'BUY' ? 'active buy' : ''}`}
@@ -692,6 +840,10 @@ const Trade = ({ user, onLogout, onNavigate }) => {
 
                                         {!isMarketOpen && (
                                             <div className="market-closed-warning">
+<<<<<<< HEAD
+=======
+                                                <div className="warning-icon">⏰</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                 <div className="warning-content">
                                                     <strong>Indian Market Closed</strong>
                                                     <p>Trading available only during Indian market hours (9:15 AM - 3:30 PM IST, Monday-Friday)</p>
@@ -700,7 +852,11 @@ const Trade = ({ user, onLogout, onNavigate }) => {
                                                         className="btn-forecast-small"
                                                         style={{marginTop: '10px'}}
                                                     >
+<<<<<<< HEAD
                                                          Get AI Forecast Instead
+=======
+                                                        🔮 Get AI Forecast Instead
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                     </button>
                                                 </div>
                                             </div>
@@ -821,7 +977,11 @@ const Trade = ({ user, onLogout, onNavigate }) => {
                                                     onClick={clearOrder}
                                                     disabled={loading}
                                                 >
+<<<<<<< HEAD
                                                     ️ Clear Order
+=======
+                                                    🗑️ Clear Order
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                 </button>
                                                 <button
                                                     className={`btn-primary ${!canAfford || !isMarketOpen ? 'disabled' : ''}`}
@@ -834,7 +994,11 @@ const Trade = ({ user, onLogout, onNavigate }) => {
                                                             Processing...
                                                         </>
                                                     ) : (
+<<<<<<< HEAD
                                                         ` ${action} ${orderType === 'LIMIT' ? 'LIMIT' : 'MARKET'} ORDER`
+=======
+                                                        `🎯 ${action} ${orderType === 'LIMIT' ? 'LIMIT' : 'MARKET'} ORDER`
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                                     )}
                                                 </button>
                                             </div>

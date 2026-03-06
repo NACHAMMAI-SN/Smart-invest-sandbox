@@ -2,6 +2,10 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+<<<<<<< HEAD
+=======
+.kotlin
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -35,9 +39,13 @@ build/
 .vscode/
 
 ### Mac OS ###
+<<<<<<< HEAD
 .DS_Store
 
 .env
 .env.local
 .env.development
 .env.production
+=======
+.DS_Store
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce

@@ -52,7 +52,11 @@ const News = ({ user, onLogout, onNavigate }) => {
         setError(null);
 
         try {
+<<<<<<< HEAD
             const API_KEY = import.meta.env.VITE_NEWS_API_KEY; // Your actual API key
+=======
+            const API_KEY = '2235a4b502b249da9e24aaa71a7a230f'; // Your actual API key
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
             const query = getQueryByFilter(activeFilter);
 
             const response = await fetch(
@@ -327,6 +331,7 @@ const News = ({ user, onLogout, onNavigate }) => {
 
                     <div className="sidebar-action-buttons">
                         <button onClick={() => onNavigate('dashboard')} className="sidebar-action-button">
+<<<<<<< HEAD
                              HOME
                         </button>
                         <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button">
@@ -343,12 +348,34 @@ const News = ({ user, onLogout, onNavigate }) => {
                         </button>
                         <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
                              TRANSACTIONS
+=======
+                            📊 HOME
+                        </button>
+                        <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button">
+                            💼 PORTFOLIO
+                        </button>
+                        <button onClick={() => onNavigate('trade')} className="sidebar-action-button">
+                            💹 TRADE
+                        </button>
+                        <button onClick={() => onNavigate('forecast')} className="sidebar-action-button">
+                            🔮 FORECAST
+                        </button>
+                        <button onClick={() => onNavigate('news')} className="sidebar-action-button primary">
+                            📰 NEWS
+                        </button>
+                        <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
+                            📋 TRANSACTIONS
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
 
                     <div className="sign-out-section">
                         <button onClick={onLogout} className="sign-out-button">
+<<<<<<< HEAD
                              Sign Out
+=======
+                            🚪 Sign Out
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
                 </div>
@@ -357,7 +384,11 @@ const News = ({ user, onLogout, onNavigate }) => {
             {/* Main Content */}
             <div className="main-content">
                 <div className="news-header">
+<<<<<<< HEAD
                     <h1> Live Market News</h1>
+=======
+                    <h1>📰 Live Market News</h1>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                     <p>Real-time financial news and market updates • {currentTime.toLocaleString()}</p>
                     <div className="news-stats">
                         <div className="stat-item">
@@ -377,7 +408,11 @@ const News = ({ user, onLogout, onNavigate }) => {
 
                 {error && (
                     <div className="news-error">
+<<<<<<< HEAD
                         <span> {error}</span>
+=======
+                        <span>⚠️ {error}</span>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                     </div>
                 )}
 
@@ -428,7 +463,11 @@ const News = ({ user, onLogout, onNavigate }) => {
                                     <span className={`category-badge ${news.category.toLowerCase()}`}>
                                         {news.category}
                                     </span>
+<<<<<<< HEAD
                                     {news.isRecent && <span className="recent-badge"> Recent</span>}
+=======
+                                    {news.isRecent && <span className="recent-badge">🆕 Recent</span>}
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 </div>
                                 <div className="news-content">
                                     <h3>{news.title}</h3>
@@ -446,8 +485,13 @@ const News = ({ user, onLogout, onNavigate }) => {
                                             disabled={!news.url || news.url === '#'}
                                         >
                                             {news.url && news.url !== '#' ?
+<<<<<<< HEAD
                                                 ` Read Full Story on ${news.source}` :
                                                 ' Source Not Available'
+=======
+                                                `📖 Read Full Story on ${news.source}` :
+                                                '🔒 Source Not Available'
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                             }
                                         </button>
                                         {news.category === 'Forecast' && (
@@ -456,7 +500,11 @@ const News = ({ user, onLogout, onNavigate }) => {
                                                 onClick={() => onNavigate('forecast')}
                                                 title="Try our AI Forecasting tool"
                                             >
+<<<<<<< HEAD
                                                  Try AI Forecast
+=======
+                                                🔮 Try AI Forecast
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                             </button>
                                         )}
                                     </div>
@@ -465,7 +513,11 @@ const News = ({ user, onLogout, onNavigate }) => {
                         ))
                     ) : (
                         <div className="no-news">
+<<<<<<< HEAD
                             <div className="no-news-icon"></div>
+=======
+                            <div className="no-news-icon">📰</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                             <h3>No news available for this category</h3>
                             <p>Try selecting a different filter or check back later</p>
                         </div>
@@ -473,7 +525,11 @@ const News = ({ user, onLogout, onNavigate }) => {
                 </div>
 
                 <div className="news-footer">
+<<<<<<< HEAD
                     <p> Auto-refreshes every 10 minutes •  Powered by NewsAPI •  AI Forecasting Available</p>
+=======
+                    <p>🔄 Auto-refreshes every 10 minutes • 📊 Powered by NewsAPI • 🔮 AI Forecasting Available</p>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                     <p className="last-updated">Last updated: {currentTime.toLocaleString()}</p>
                 </div>
             </div>

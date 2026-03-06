@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Forecast.css';
+<<<<<<< HEAD
 import { getForecast } from '../services/api';
+=======
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 
 // Mock chart component - replace with actual Chart.js or similar
 const PriceChart = ({ historicalData, forecastData, isMarketOpen }) => {
@@ -72,7 +75,11 @@ const PriceChart = ({ historicalData, forecastData, isMarketOpen }) => {
                 </div>
                 {!isMarketOpen && (
                     <div className="market-closed-notice">
+<<<<<<< HEAD
                          Displaying latest available data - Market is currently closed
+=======
+                        📊 Displaying latest available data - Market is currently closed
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                     </div>
                 )}
             </div>
@@ -114,6 +121,7 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
         { symbol: 'BA', name: 'Boeing Company', sector: 'Industrial' }
     ];
 
+<<<<<<< HEAD
     // Helper functions to find stock name and sector
     const findStockName = (symbol) => {
         const stock = availableStocks.find(stock =>
@@ -133,6 +141,8 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
         return stock ? stock.sector : 'Unknown Sector';
     };
 
+=======
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     // Filter stocks based on search
     const filteredStocks = availableStocks.filter(stock =>
         stock.symbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -143,6 +153,7 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
     useEffect(() => {
         const updateMarketStatus = () => {
             const now = new Date();
+<<<<<<< HEAD
             const istTime = new Date(
                 now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
             );
@@ -186,6 +197,42 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
 
             setMarketStatus(status);
             setIsMarketOpen(isMarketHours);
+=======
+            const day = now.getDay();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const estHours = hours - 5; // Convert to EST (simplified)
+
+            let status = '';
+            let marketOpen = false;
+
+            if (day === 0 || day === 6) {
+                status = 'Market closed for weekend';
+                marketOpen = false;
+            } else if (estHours < 9 || (estHours === 9 && minutes < 30)) {
+                const openTime = new Date();
+                openTime.setHours(14, 30, 0, 0); // 9:30 AM EST
+                const diff = openTime - now;
+                const hoursLeft = Math.floor(diff / (1000 * 60 * 60));
+                const minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                status = `Market opens in ${hoursLeft}h ${minutesLeft}m`;
+                marketOpen = false;
+            } else if (estHours < 16) {
+                const closeTime = new Date();
+                closeTime.setHours(21, 0, 0, 0); // 4:00 PM EST
+                const diff = closeTime - now;
+                const hoursLeft = Math.floor(diff / (1000 * 60 * 60));
+                const minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                status = `Market is open - Closes in ${hoursLeft}h ${minutesLeft}m`;
+                marketOpen = true;
+            } else {
+                status = 'Market closed for today';
+                marketOpen = false;
+            }
+
+            setMarketStatus(status);
+            setIsMarketOpen(marketOpen);
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
         };
 
         updateMarketStatus();
@@ -193,7 +240,10 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
         return () => clearInterval(interval);
     }, []);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     // Enhanced forecast data generation with realistic patterns
     const generateForecastData = () => {
         const selectedStockInfo = availableStocks.find(stock => stock.symbol === selectedStock);
@@ -276,6 +326,7 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
         return finalPrediction;
     };
 
+<<<<<<< HEAD
 
     // Replace the generateForecastData function:
     const fetchForecast = async () => {
@@ -314,6 +365,20 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
 
             setForecastData(forecastObj);
             setPredictionAccuracy(data.confidence);
+=======
+    const fetchForecast = async () => {
+        if (!isMarketOpen) {
+            // Show warning but still allow forecasting
+            console.log('Market is closed - Using latest available data for forecasting');
+        }
+
+        setLoading(true);
+        try {
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            const data = generateForecastData();
+            setForecastData(data);
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
         } catch (error) {
             console.error('Error fetching forecast:', error);
         } finally {
@@ -321,7 +386,10 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
         }
     };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
     useEffect(() => {
         fetchForecast();
     }, [selectedStock, timeframe]);
@@ -418,6 +486,7 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
 
                     <div className="sidebar-action-buttons">
                         <button onClick={() => onNavigate('dashboard')} className="sidebar-action-button">
+<<<<<<< HEAD
                              HOME
                         </button>
                         <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button">
@@ -434,12 +503,34 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
                         </button>
                         <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
                              TRANSACTIONS
+=======
+                            📊 HOME
+                        </button>
+                        <button onClick={() => onNavigate('portfolio')} className="sidebar-action-button">
+                            💼 PORTFOLIO
+                        </button>
+                        <button onClick={() => onNavigate('trade')} className="sidebar-action-button">
+                            💹 TRADE
+                        </button>
+                        <button onClick={() => onNavigate('forecast')} className="sidebar-action-button primary forecast-active">
+                            🔮 FORECAST
+                        </button>
+                        <button onClick={() => onNavigate('news')} className="sidebar-action-button">
+                            📰 NEWS
+                        </button>
+                        <button onClick={() => onNavigate('transactions')} className="sidebar-action-button">
+                            📋 TRANSACTIONS
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
 
                     <div className="sign-out-section">
                         <button onClick={onLogout} className="sign-out-button">
+<<<<<<< HEAD
                              Sign Out
+=======
+                            🚪 Sign Out
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         </button>
                     </div>
                 </div>
@@ -455,7 +546,11 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
                             <span className="market-hours">{marketStatus}</span>
                             {!isMarketOpen && (
                                 <span className="market-closed-warning">
+<<<<<<< HEAD
                                      Using latest available data for AI forecasting
+=======
+                                    📊 Using latest available data for AI forecasting
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                 </span>
                             )}
                         </div>
@@ -469,7 +564,11 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
 
                     {/* Forecast Header */}
                     <div className="forecast-header">
+<<<<<<< HEAD
                         <h1> AI Stock Market Forecasting</h1>
+=======
+                        <h1>🔮 AI Stock Market Forecasting</h1>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                         <p>Advanced machine learning predictions powered by LSTM neural networks</p>
                         {!isMarketOpen && (
                             <div className="market-closed-alert">
@@ -597,22 +696,38 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
                                 {/* Metrics Grid */}
                                 <div className="metrics-grid">
                                     <div className="metric-card">
+<<<<<<< HEAD
                                         <div className="metric-icon"></div>
+=======
+                                        <div className="metric-icon">📈</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         <div className="metric-value">{metrics.trendStrength.toFixed(1)}%</div>
                                         <div className="metric-label">Trend Strength</div>
                                     </div>
                                     <div className="metric-card">
+<<<<<<< HEAD
                                         <div className="metric-icon"></div>
+=======
+                                        <div className="metric-icon">⚡</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         <div className="metric-value">{metrics.volatility}%</div>
                                         <div className="metric-label">Volatility</div>
                                     </div>
                                     <div className="metric-card">
+<<<<<<< HEAD
                                         <div className="metric-icon"></div>
+=======
+                                        <div className="metric-icon">🎯</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         <div className="metric-value">{predictionAccuracy}%</div>
                                         <div className="metric-label">Model Accuracy</div>
                                     </div>
                                     <div className="metric-card">
+<<<<<<< HEAD
                                         <div className="metric-icon"></div>
+=======
+                                        <div className="metric-icon">📊</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         <div className="metric-value">{timeframe}</div>
                                         <div className="metric-label">Forecast Period</div>
                                     </div>
@@ -694,9 +809,16 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
 
                             {/* Trading Recommendations */}
                             <div className="recommendations">
+<<<<<<< HEAD
                                 <h3> AI Trading Recommendations</h3>
                                 <div className="recommendation-cards">
                                     <div className="recommendation-card">
+=======
+                                <h3>🤖 AI Trading Recommendations</h3>
+                                <div className="recommendation-cards">
+                                    <div className="recommendation-card">
+                                        <div className="rec-icon">💡</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         <div className="rec-content">
                                             <h4>Market Sentiment</h4>
                                             <p>{forecastData.prediction.direction === 'bullish' ?
@@ -706,12 +828,20 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
                                         </div>
                                     </div>
                                     <div className="recommendation-card">
+<<<<<<< HEAD
+=======
+                                        <div className="rec-icon">⚖️</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         <div className="rec-content">
                                             <h4>Risk Level</h4>
                                             <p>{metrics.volatility > 5 ? 'High Volatility' : 'Moderate Risk'}</p>
                                         </div>
                                     </div>
                                     <div className="recommendation-card">
+<<<<<<< HEAD
+=======
+                                        <div className="rec-icon">🎯</div>
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                                         <div className="rec-content">
                                             <h4>Suggested Action</h4>
                                             <p>{forecastData.prediction.direction === 'bullish' ?
@@ -725,11 +855,19 @@ const Forecast = ({ user, onLogout, onNavigate }) => {
                         </div>
                     ) : (
                         <div className="forecast-error">
+<<<<<<< HEAD
                             <div className="error-icon"></div>
                             <h3>Unable to load forecast data</h3>
                             <p>Please check your connection and try again</p>
                             <button onClick={fetchForecast} className="btn-primary">
                                  Retry
+=======
+                            <div className="error-icon">🔮</div>
+                            <h3>Unable to load forecast data</h3>
+                            <p>Please check your connection and try again</p>
+                            <button onClick={fetchForecast} className="btn-primary">
+                                🔄 Retry
+>>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
                             </button>
                         </div>
                     )}
