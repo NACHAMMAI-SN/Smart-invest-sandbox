@@ -89,7 +89,7 @@ cd Smart-invest-sandbox
 
 ## Backend Setup
 
-=======
+
 # Smart Invest Sandbox 
 
 A **risk-free stock market simulation platform** that lets users start with **$100,000 virtual balance** to learn trading, practice investment strategies, and master financial markets without real financial risk.
