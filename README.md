@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Smart Invest Sandbox
 
 A risk-free stock market simulation platform that allows users to start with a virtual balance of $100,000 to learn trading, practice investment strategies, and understand financial markets without real monetary risk.
@@ -170,12 +170,11 @@ mvn clean compile
 mvn exec:java -Dexec.mainClass="backend.Main"
 ```
 
-<<<<<<< HEAD
 ---
 
 ## Frontend Setup
 
-=======
+
 3. **Frontend Setup**
 >>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
 ```bash
@@ -184,7 +183,7 @@ npm install
 npm run dev
 ```
 
-<<<<<<< HEAD
+
 ---
 
 ## Access the Application
@@ -262,4 +261,4 @@ npm run dev
 **Start your investment journey today risk-free!** 
 
 *Smart Invest Sandbox - Where Learning Meets Trading*
->>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
+
