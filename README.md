@@ -163,8 +163,7 @@ cd smart-invest
 ```
 
 2. **Backend Setup**
->>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
-```bash
+ 
 cd src/main/java/backend
 mvn clean compile
 mvn exec:java -Dexec.mainClass="backend.Main"
@@ -176,8 +175,7 @@ mvn exec:java -Dexec.mainClass="backend.Main"
 
 
 3. **Frontend Setup**
->>>>>>> 98ed4d710cfe2d70ee93b475890af0489edd38ce
-```bash
+
 cd src/frontend
 npm install
 npm run dev
@@ -215,7 +213,7 @@ npm run dev
 ---
 
 
-=======
+
 4. **Access the Application**
 - Frontend: `http://localhost:3000`
 - Backend API: `http://localhost:8080`
