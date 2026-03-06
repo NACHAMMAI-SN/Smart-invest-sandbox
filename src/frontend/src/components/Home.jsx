@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Home.css';
+import { portfolioAPI } from '../services/api';
 
 const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
     const [marketStatus, setMarketStatus] = useState('');
+    const [analytics, setAnalytics] = useState({
+        totalInvestment: 0,
+        portfolioValue: 0,
+        profitLoss: 0,
+        holdings: 0,
+        topStock: ''
+    });
 
     // Calculate real-time market status
     useEffect(() => {
@@ -38,6 +46,20 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
         const interval = setInterval(updateMarketStatus, 60000);
         return () => clearInterval(interval);
     }, []);
+
+    // Load portfolio analytics for dashboard card
+    useEffect(() => {
+        const loadAnalytics = async () => {
+            if (!user?.username) return;
+            try {
+                const data = await portfolioAPI.getPortfolioAnalytics(user.username);
+                setAnalytics(data || {});
+            } catch (e) {
+                console.error('Failed to load portfolio analytics', e);
+            }
+        };
+        loadAnalytics();
+    }, [user]);
 
     return (
         <div className="dashboard-container">
@@ -192,6 +214,43 @@ const Home = ({ user, onLogout, onNavigate, onNavigateToTutorials }) => {
                                 <div className="stat-badge">
                                     <span className="stat-label">AI Features</span>
                                     <span className="stat-value beginner">Enabled</span>
+                                </div>
+                            </div>
+
+                            {/* Portfolio Analytics Card */}
+                            <div className="analytics-card">
+                                <h2>Portfolio Analytics</h2>
+                                <div className="analytics-grid">
+                                    <div className="analytics-item">
+                                        <span className="analytics-label">Total Investment</span>
+                                        <span className="analytics-value">
+                                            ${analytics.totalInvestment?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
+                                        </span>
+                                    </div>
+                                    <div className="analytics-item">
+                                        <span className="analytics-label">Portfolio Value</span>
+                                        <span className="analytics-value">
+                                            ${analytics.portfolioValue?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}
+                                        </span>
+                                    </div>
+                                    <div className="analytics-item">
+                                        <span className="analytics-label">Profit / Loss</span>
+                                        <span className={`analytics-value ${analytics.profitLoss >= 0 ? 'positive' : 'negative'}`}>
+                                            {analytics.profitLoss >= 0 ? '+' : '-'}${Math.abs(analytics.profitLoss || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                        </span>
+                                    </div>
+                                    <div className="analytics-item">
+                                        <span className="analytics-label">Holdings</span>
+                                        <span className="analytics-value">
+                                            {analytics.holdings || 0}
+                                        </span>
+                                    </div>
+                                    <div className="analytics-item">
+                                        <span className="analytics-label">Top Performing Stock</span>
+                                        <span className="analytics-value">
+                                            {analytics.topStock || 'N/A'}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 

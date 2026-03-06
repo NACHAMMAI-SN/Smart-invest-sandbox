@@ -143,7 +143,7 @@ export const portfolioAPI = {
         }
     },
 
-    // Buy stock
+    // Buy stock (full trade payload)
     buyStock: async (tradeData) => {
         try {
             const response = await axios.post(`${PORTFOLIO_BASE}/trade/buy`, tradeData);
@@ -157,7 +157,7 @@ export const portfolioAPI = {
         }
     },
 
-    // Sell stock
+    // Sell stock (full trade payload)
     sellStock: async (tradeData) => {
         try {
             const response = await axios.post(`${PORTFOLIO_BASE}/trade/sell`, tradeData);
@@ -171,7 +171,7 @@ export const portfolioAPI = {
         }
     },
 
-    // Get portfolio statistics
+    // Get portfolio statistics (derived on frontend from portfolio + transactions)
     getPortfolioStats: async (username) => {
         try {
             const portfolioResponse = await portfolioAPI.getPortfolio(username);
@@ -209,6 +209,42 @@ export const portfolioAPI = {
                 message: 'Failed to calculate portfolio statistics'
             };
         }
+    },
+
+    // Get aggregated portfolio analytics from backend
+    getPortfolioAnalytics: async (username) => {
+        try {
+            const response = await axios.get(`${PORTFOLIO_BASE}/portfolio/analytics`, {
+                params: { username }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Portfolio analytics fetch error:', error);
+            return {
+                totalInvestment: 0,
+                portfolioValue: 0,
+                profitLoss: 0,
+                holdings: 0,
+                topStock: ''
+            };
+        }
+    },
+
+    // Simple helpers for common trade & analytics operations
+    buyStockSimple: async (username, symbol, quantity, stockName = symbol, orderType = 'MARKET', duration = 'DAY') => {
+        return portfolioAPI.buyStock({ username, symbol, stockName, quantity, orderType, duration });
+    },
+
+    sellStockSimple: async (username, symbol, quantity, stockName = symbol, orderType = 'MARKET', duration = 'DAY') => {
+        return portfolioAPI.sellStock({ username, symbol, stockName, quantity, orderType, duration });
+    },
+
+    fetchPortfolio: async (username) => {
+        return portfolioAPI.getPortfolio(username);
+    },
+
+    fetchPortfolioAnalytics: async (username) => {
+        return portfolioAPI.getPortfolioAnalytics(username);
     }
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Trade.css';
+import { portfolioAPI } from '../services/api';
 
 const Trade = ({ user, onLogout, onNavigate }) => {
     const [stockData, setStockData] = useState(null);
@@ -21,7 +22,6 @@ const Trade = ({ user, onLogout, onNavigate }) => {
     const [availableStocksData, setAvailableStocksData] = useState([]);
     const [isMarketOpen, setIsMarketOpen] = useState(false);
     const [transactions, setTransactions] = useState([]);
-    const [portfolio, setPortfolio] = useState({});
 
     // Indian Stocks List
     const indianStocks = [
@@ -214,21 +214,7 @@ const Trade = ({ user, onLogout, onNavigate }) => {
     useEffect(() => {
         fetchStockData('RELIANCE');
         loadAvailableStocks();
-        loadInitialPortfolio();
     }, []);
-
-    // Load initial portfolio from localStorage
-    const loadInitialPortfolio = () => {
-        const savedPortfolio = localStorage.getItem('userPortfolio');
-        const savedTransactions = localStorage.getItem('userTransactions');
-
-        if (savedPortfolio) {
-            setPortfolio(JSON.parse(savedPortfolio));
-        }
-        if (savedTransactions) {
-            setTransactions(JSON.parse(savedTransactions));
-        }
-    };
 
     const fetchStockData = async (symbol = 'RELIANCE') => {
         setStockLoading(true);
@@ -355,62 +341,42 @@ const Trade = ({ user, onLogout, onNavigate }) => {
             return;
         }
 
-        if (action === 'SELL') {
-            const currentHolding = portfolio[stockData.symbol] || 0;
-            if (quantity > currentHolding) {
-                setMessage(` Insufficient shares. You only have ${currentHolding} shares of ${stockData.symbol}`);
-                return;
-            }
-        }
-
         setLoading(true);
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            // Create transaction record
-            const transaction = {
-                id: Date.now().toString(),
+            const tradeData = {
+                username: user.username,
                 symbol: stockData.symbol,
-                name: stockData.name,
-                action: action,
-                quantity: quantity,
-                price: currentPrice,
-                total: estimatedTotal,
-                type: orderType,
-                timestamp: new Date().toISOString(),
-                status: 'COMPLETED'
+                stockName: stockData.name,
+                quantity,
+                orderType,
+                duration
             };
 
-            // Update portfolio
-            const updatedPortfolio = { ...portfolio };
-            const currentShares = updatedPortfolio[stockData.symbol] || 0;
+            const result = action === 'BUY'
+                ? await portfolioAPI.buyStock(tradeData)
+                : await portfolioAPI.sellStock(tradeData);
 
-            if (action === 'BUY') {
-                updatedPortfolio[stockData.symbol] = currentShares + quantity;
-                user.balance -= estimatedTotal;
-            } else {
-                updatedPortfolio[stockData.symbol] = currentShares - quantity;
-                user.balance += estimatedTotal;
-
-                // Remove stock from portfolio if quantity becomes zero
-                if (updatedPortfolio[stockData.symbol] <= 0) {
-                    delete updatedPortfolio[stockData.symbol];
+            if (result && result.success) {
+                // Update in-memory balance from backend response if present
+                if (result.user && typeof result.user.balance === 'number') {
+                    // Mutate user object to keep UI balance roughly in sync
+                    // (parent holds the same reference)
+                    // eslint-disable-next-line no-param-reassign
+                    user.balance = result.user.balance;
                 }
+
+                // Optionally refresh portfolio data on backend
+                try {
+                    await portfolioAPI.getPortfolio(user.username);
+                } catch (e) {
+                    console.warn('Portfolio refresh after trade failed', e);
+                }
+
+                setMessage(` ${result.message || `${action} order executed successfully! ${quantity} shares of ${stockData.symbol}`}`);
+            } else {
+                const errorMessage = result?.message || 'Trade execution failed. Please try again.';
+                setMessage(` ${errorMessage}`);
             }
-
-            // Update transactions
-            const updatedTransactions = [transaction, ...transactions];
-
-            // Update state
-            setPortfolio(updatedPortfolio);
-            setTransactions(updatedTransactions);
-
-            // Save to localStorage
-            localStorage.setItem('userPortfolio', JSON.stringify(updatedPortfolio));
-            localStorage.setItem('userTransactions', JSON.stringify(updatedTransactions));
-
-            setMessage(` ${action} order executed successfully! ${quantity} shares of ${stockData.symbol} for ₹${estimatedTotal.toFixed(2)}`);
             setQuantity(1);
 
         } catch (error) {

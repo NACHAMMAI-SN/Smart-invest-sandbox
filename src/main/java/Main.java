@@ -1,14 +1,19 @@
 import backend.controllers.StockController;
 import backend.controllers.ForecastController;
-import backend.services.*;
 import backend.database.DatabaseHandler;
-import backend.models.User;
+import backend.models.Exercise;
 import backend.models.Portfolio;
+import backend.models.Question;
+import backend.models.Quiz;
 import backend.models.Transaction;
 import backend.models.TutorialSection;
-import backend.models.Quiz;
-import backend.models.Question;
-import backend.models.Exercise;
+import backend.models.User;
+import backend.services.AlphaVantageService;
+import backend.services.AuthService;
+import backend.services.LSTMForecaster;
+import backend.services.PortfolioAnalyticsService;
+import backend.services.PortfolioService;
+import backend.services.TutorialService;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
@@ -27,6 +32,7 @@ public class Main {
     private static StockController stockController;
     private static AuthService authService;
     private static PortfolioService portfolioService;
+    private static PortfolioAnalyticsService portfolioAnalyticsService;
     private static TutorialService tutorialService;
     private static final Gson gson = new Gson();
     private static HttpServer server;
@@ -42,6 +48,7 @@ public class Main {
             AlphaVantageService alphaVantageService = new AlphaVantageService();
             stockController = new StockController(alphaVantageService);
             portfolioService = new PortfolioService(dbHandler);
+            portfolioAnalyticsService = new PortfolioAnalyticsService(dbHandler);
             tutorialService = new TutorialService();
 
             // Create HTTP server
@@ -52,6 +59,7 @@ public class Main {
             server.createContext("/api/stocks", new StockHandler());
             server.createContext("/api/auth", new AuthHandler());
             server.createContext("/api/portfolio", new PortfolioHandler());
+            server.createContext("/api/portfolio/analytics", new PortfolioAnalyticsHandler());
             server.createContext("/api/transactions", new TransactionsHandler());
             server.createContext("/api/trade", new TradeHandler());
 
@@ -387,6 +395,50 @@ public class Main {
 
             } catch (Exception e) {
                 System.err.println("Error in PortfolioHandler: " + e.getMessage());
+                sendResponse(exchange, 500, "{\"error\": \"Internal server error\"}");
+            } finally {
+                exchange.close();
+            }
+        }
+    }
+
+    // ===================== PORTFOLIO ANALYTICS HANDLER =====================
+    static class PortfolioAnalyticsHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            System.out.println(" Received portfolio analytics request: " + exchange.getRequestMethod() + " " + exchange.getRequestURI());
+
+            setCorsHeaders(exchange);
+            if ("OPTIONS".equalsIgnoreCase(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(200, -1);
+                return;
+            }
+
+            if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+                sendResponse(exchange, 405, "{\"error\": \"Method not allowed\"}");
+                return;
+            }
+
+            try {
+                String query = exchange.getRequestURI().getQuery();
+                // Prefer explicit username parameter, but accept userId as fallback
+                String username = getParamValue(query, "username");
+                if (username == null) {
+                    username = getParamValue(query, "userId");
+                }
+
+                if (username == null) {
+                    sendResponse(exchange, 400, "{\"error\": \"username parameter required\"}");
+                    return;
+                }
+
+                System.out.println(" Computing portfolio analytics for user: " + username);
+                Map<String, Object> analytics = portfolioAnalyticsService.getAnalytics(username);
+                String responseJson = convertMapToJson(analytics);
+                sendResponse(exchange, 200, responseJson);
+
+            } catch (Exception e) {
+                System.err.println("Error in PortfolioAnalyticsHandler: " + e.getMessage());
                 sendResponse(exchange, 500, "{\"error\": \"Internal server error\"}");
             } finally {
                 exchange.close();

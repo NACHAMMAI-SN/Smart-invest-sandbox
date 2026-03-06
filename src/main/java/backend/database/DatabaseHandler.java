@@ -385,15 +385,15 @@ public class DatabaseHandler {
         return transactions;
     }
 
-    // Get total investment (sum of all BUY transactions)
+    // Get total investment based on portfolio cost (quantity * purchase_price)
     public double getTotalInvestment(String username) {
-        String sql = "SELECT COALESCE(SUM(total_amount), 0) as total FROM transactions WHERE username = ? AND type = 'BUY'";
+        String sql = "SELECT COALESCE(SUM(quantity * purchase_price), 0) as total_investment FROM portfolio WHERE username = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getDouble("total");
+                return rs.getDouble("total_investment");
             }
         } catch (SQLException e) {
             logger.log(Level.WARNING, "Error calculating total investment for user: " + username, e);
@@ -488,5 +488,62 @@ public class DatabaseHandler {
             logger.log(Level.WARNING, "Error calculating total portfolio value for user: " + username, e);
         }
         return 0.0;
+    }
+
+    // === Analytics helpers ===
+
+    /**
+     * Returns the total invested amount based on portfolio purchase prices.
+     * This complements {@link #getTotalInvestment(String)} which uses transactions.
+     */
+    public double getTotalPortfolioInvestment(String username) {
+        String sql = "SELECT COALESCE(SUM(quantity * purchase_price), 0) as total_investment " +
+                "FROM portfolio WHERE username = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("total_investment");
+            }
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, "Error calculating total portfolio investment for user: " + username, e);
+        }
+        return 0.0;
+    }
+
+    /**
+     * Returns the number of holdings (rows) for the user.
+     */
+    public int getHoldingsCount(String username) {
+        String sql = "SELECT COUNT(*) AS holdings FROM portfolio WHERE username = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("holdings");
+            }
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, "Error calculating holdings count for user: " + username, e);
+        }
+        return 0;
+    }
+
+    /**
+     * Returns the symbol of the best performing stock based on price difference.
+     */
+    public String getTopPerformingStockSymbol(String username) {
+        String sql = "SELECT symbol, (current_price - purchase_price) AS profit " +
+                "FROM portfolio WHERE username = ? " +
+                "ORDER BY profit DESC LIMIT 1";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("symbol");
+            }
+        } catch (SQLException e) {
+            logger.log(Level.WARNING, "Error fetching top performing stock for user: " + username, e);
+        }
+        return null;
     }
 }
