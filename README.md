@@ -164,12 +164,12 @@ cd smart-invest
 
 2. **Backend Setup**
  
-cd src/main/java/backend
-mvn clean compile
-mvn exec:java -Dexec.mainClass="backend.Main"
-```
+mvn clean install
 
----
+mvn dependency:copy-dependencies
+
+java -cp "target/classes;target/dependency/*" Main
+
 
 ## Frontend Setup
 
@@ -177,7 +177,9 @@ mvn exec:java -Dexec.mainClass="backend.Main"
 3. **Frontend Setup**
 
 cd src/frontend
+
 npm install
+
 npm run dev
 ```
 
